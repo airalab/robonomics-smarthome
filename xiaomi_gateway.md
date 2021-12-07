@@ -32,7 +32,7 @@ You can also connect your hub to Aqara Home app on ios and then add it to Home A
 
 Add your hub to the app using `add device` or `+` button. Right after your hub added to Aqara Home app you will be proposed to bind it with your Homekit account. 
 
-<img src="https://github.com/tubleronchik/robonomics-smarthome/blob/e4540b5381d60b4d5167f1038828fd334ea79ba9/media/homekit.png" width="400">
+<img src="https://github.com/airalab/robonomics-smarthome/blob/main/media/homekit.png" width="400">
 
 When you see a menu like the picture, open your Home Assistant page:
 
