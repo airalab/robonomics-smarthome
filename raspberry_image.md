@@ -1,5 +1,7 @@
 # Prepared Image
-We prepared image for more easily usage of Home Assistant with Robonomics on RaspberryP. You can download it there:\
+We prepared image for more easily usage of Home Assistant with Xiaomi Miio and Robonomics on Raspberry Pi. You can get it here: 
+[Download image](https://ipfs.io/ipfs/bafybeihjcidgm4bfmsedgxfacftinbyyqvjdqsmcd6t7jqsak23nrzivmm)
+SHA256 checksum: 7ec5ea99d7e339b54cbeaaae58c8295411769d27732ec2b5464dbb495ba24120
 
 What preinstalled in the image:
 - Ubuntu Server 21.10 (3/4/400): 64-bit server OS for arm64 archtectures
@@ -7,6 +9,7 @@ What preinstalled in the image:
 - Home Assistant Core 2021.11.5
 - rustc 1.59.0-nightly (efec54529 2021-12-04)
 - substrate-interface 1.1.2
+- python-miio 0.5.8
 
 # How To Use The Prepared Image
 Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Insert SD card and run Imager. In `Operating System` select `Use custom` and choose downloaded `.img` file. Then select you SD card and click `WRITE`.
