@@ -1,7 +1,9 @@
 # Prepared Image
-We prepared image for more easily usage of Home Assistant with Xiaomi Miio and Robonomics on Raspberry Pi. You can get it here: 
-[Download image](https://ipfs.io/ipfs/bafybeihjcidgm4bfmsedgxfacftinbyyqvjdqsmcd6t7jqsak23nrzivmm)
-SHA256 checksum: 7ec5ea99d7e339b54cbeaaae58c8295411769d27732ec2b5464dbb495ba24120
+We prepared image for more easily usage of Home Assistant with Xiaomi Miio and Robonomics on Raspberry Pi. 
+
+You can get it here: [download image](https://ipfs.io/ipfs/bafybeihjcidgm4bfmsedgxfacftinbyyqvjdqsmcd6t7jqsak23nrzivmm)
+
+SHA256 checksum: `7ec5ea99d7e339b54cbeaaae58c8295411769d27732ec2b5464dbb495ba24120`
 
 What preinstalled in the image:
 - Ubuntu Server 21.10 (3/4/400): 64-bit server OS for arm64 archtectures
