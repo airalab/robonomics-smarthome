@@ -2,7 +2,7 @@
 
 ## Connect to Home Assistant
 
-You need your vacuum to be connected to Mi Home app. If you haven't done this yet press `+` button on the top right corner, find your vacuum (it must be in connecting mode with long press to power button) and follow instructions in the app. For more details look at user manual of your vacuum.
+You need your vacuum to be connected to Mi Home app. If you haven't done this yet press `+` button on the top right corner, find your vacuum (it must be in connecting mode via a long press of the power button) and follow instructions in the app. For more details look at the user manual of your vacuum.
 
 Open Home Assistant web page with this address:
 ```
@@ -21,7 +21,7 @@ Press `Submit` and choose your Vacuum (Robot vacuum in this example):
 
 ![vacuum](media/vacuum_int.png)
 
-Then we need to setup action to control Vacuum through Robonomics. For that open a configuration file on your raspberry:
+Then we need to setup action to control Vacuum through Robonomics. For that open a configuration file on your raspberry pi:
 
 ```bash
 nano ~/.homeassistant/configuration.yaml

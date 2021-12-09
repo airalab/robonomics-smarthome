@@ -1,14 +1,14 @@
 # Raspberry setup
 
-You need to setup Raspberry Pi for both methods.
+For both methods, the first thing you need to do is setup a Raspberry Pi.
 
-Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Insert SD card and run Imager. Choose 64-bit Ubuntu Server as an OS and your SD card and press `write`.
+Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Then, insert the SD card and run the Imager program. From the menu, select 64-bit Ubuntu Server as the operating system and ensure to select your SD card from the storage dropdown, and then press `write`.
 
 ![pi](media/pi.png)
 
-Open SD card and navigate inside the root folder of the card. The name should be something like `system-boot`.
+Open the SD card's storage from your computer and navigate inside the root folder of the card. The name of the folder should be something similar to `system-boot`.
 
-Find the file named `network-config` and open it in a text editor. Write this to the file:
+Find the file named `network-config` and open it in a text editor. Copy the below text and paste it into the file:
 ```
 version: 2
 ethernets:
@@ -24,7 +24,7 @@ wifis:
         password: "YOUR_WIFI_PASSWORD"
 ```
 
-Save file, insert SD card to the Raspberry and turn it on. It must connect to your wi-fi network, now you need to find its address. Firstly find your address in the local network with:
+**Make sure that you input your actual wifi name and your wifi password.** Then you need to save the file, and insert the SD card to the Raspberry Pi and turn it on. It must connect to your wi-fi network, now you need to find its address. Firstly find your address in the local network with:
 ```bash
 ip a
 ```
@@ -48,7 +48,7 @@ Nmap scan report for ed-vm (192.168.43.138)
 Host is up.
 Nmap done: 256 IP addresses (4 hosts up) scanned in 2.07 seconds
 ```
-There raspberry's address is `192.168.43.56`. Now you can connect to it over ssh:
+In this example we can see that the Raspberry Pi's address is `192.168.43.56`. Now you can connect to it over ssh:
 ```bash
 ssh ubuntu@192.168.43.56
 ```
@@ -56,7 +56,7 @@ Password is "ubuntu".
 
 ## Home Assistant
 
-Now we need to install Home Assistant to Raspberry. Detailed instructions you can find [here](https://www.home-assistant.io/installation/linux#install-home-assistant-core). You need to install `Home Assistant Core`. It's actual version is 2021.11.5 and instruction assumes that we already have installed Python 3.9 or newer.
+Now we need to install Home Assistant to the Raspberry Pi. Detailed instructions can be found [here](https://www.home-assistant.io/installation/linux#install-home-assistant-core). You need to install `Home Assistant Core`. It's actual version is 2021.11.5 and instruction assumes that we already have installed Python 3.9 or newer.
 
 Update your system and install necessary packages:
 ```bash
@@ -88,7 +88,7 @@ hass
 ```
 You can now reach your installation via the web interface on `http://localhost:8123`. Create user and finish setup, then stop Home Assistant with `Ctrl+C`.
 
-After installation from `scripts` folder import `send_datalog.py` script which will send received data to Robonomics, `control.py` which allows home assistant to receive commands from datalog, and file `config.config`, containing mnemonic seed:
+After this installation process has been completed, from the`scripts` folder import `send_datalog.py` script which will send received data to Robonomics, `control.py` which allows home assistant to receive commands from datalog, and file `config.config`, containing mnemonic seed:
 
 ```bash
 cd /srv/homeassistant/

@@ -1,5 +1,5 @@
 # Prepared Image
-We prepared image for more easily usage of Home Assistant with Xiaomi Miio and Robonomics on Raspberry Pi. 
+We prepared an image to make it easier to use the Home Assistant with Xiaomi Miio and Robonomics with the Raspberry Pi.
 
 You can get it here: [download image](https://ipfs.io/ipfs/bafybeihjcidgm4bfmsedgxfacftinbyyqvjdqsmcd6t7jqsak23nrzivmm)
 
@@ -14,11 +14,11 @@ What preinstalled in the image:
 - python-miio 0.5.8
 
 # How To Use The Prepared Image
-Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Insert SD card and run Imager. In `Operating System` select `Use custom` and choose downloaded `.img` file. Then select you SD card and click `WRITE`.
+Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Insert SD card into your PC and run the Imager program. In `Operating System` select `Use custom` and choose the previously downloaded `.img` file. Then select your SD card in the `Storage` dropdown and click `WRITE`.
 ![imager](media/use_custom_image.png)
 ![imager](media/imager_prep.png)
 
-After writing is comlete, open SD card and navigate inside the root folder of the card. The name should be something like `system-boot`.
+After writing is comleted, open the SD card's files on your computer and navigate inside the root folder of the card. The name should be something similar to `system-boot`.
 
 Find the file named `network-config` and open it in a text editor. Write this to the file:
 ```
@@ -35,8 +35,8 @@ wifis:
       "YOUR_WIFI_NAME":
         password: "YOUR_WIFI_PASSWORD"
 ```
+**Make sure that you input your actual wifi name and your wifi password.** Then you need to save the file, and insert the SD card to the Raspberry Pi and turn it on. It must connect to your wi-fi network, now you need to find its address. Firstly find your address in the local network with:
 
-Save file, insert SD card to the Raspberry and turn it on. It must connect to your wi-fi network, now you need to find its address. Firstly find your address in the local network with:
 ```bash
 ip a
 ```
