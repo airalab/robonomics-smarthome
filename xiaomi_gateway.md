@@ -86,6 +86,6 @@ You can choose how often you want to send data with changing the value in `minut
 
 And restart Home Assistant:
 ```bash
-systemctl restart home-sistant@homeassistant.service
+systemctl restart home-assistant@homeassistant.service
 ```
  You can add the data from sensors to your homepage like in `Home Assistant setup` in the description to [Method 1](zigbee2MQTT.md).
