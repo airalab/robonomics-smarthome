@@ -1,4 +1,4 @@
-Instruction on how to connect your smart home devices to Robonomics through Home Assistant. There will be two methods to connect your device: directly to Raspberry Pi via zigbee2MQTT adapter or through Xiaomi Gateway.
+This repo contains instructions on how to connect your smart home devices to the Robonomics network through a Home Assistant. There will be two methods which will be explained to help you connect your device to a Raspberry Pi; via a zigbee2MQTT adapter, or through Xiaomi Gateway.
 # Requirements
 
 * Raspberry Pi 4 or 3
@@ -16,7 +16,7 @@ Also you can connect some devices directly through Mi Home app (for example, Vac
 
 # Setup
 
-1. Firstly you need to [setup Raspberry Pi](raspberry_setup.md) (also you can [use prepeared image](raspberry_image.md)).
+1. First you need to [setup Raspberry Pi](raspberry_setup.md) (also you can [use prepeared image](raspberry_image.md)).
 2. Then you need to connect devices:
 - [Connection with zigbee2MQTT](zigbee2MQTT.md)
 - [Connection through Xiaomi Gateway](xiaomi_gateway.md)

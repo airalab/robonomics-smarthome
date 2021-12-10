@@ -2,19 +2,19 @@
 
 ## Mosquitto MQTT broker
 
-Now you neet to install MQTT broker to Raspberry:
+For this method, you neet to install MQTT broker to the Raspberry Pi:
 
 ```bash
 sudo apt update
 sudo apt install mosquitto mosquitto-clients
 ```
-Mosquitto will run automatically after installation.
+The Mosquitto program will run automatically after installation.
 
 ## Zigbee2MQTT setup
 
-If you have JetHome USB JetStick Z2 it already has necessary firmware so you don't need to flash it. But if you have another adapter firstly you need to flash it with zigbee2MQTT software. You can find instructions for you device [here](https://www.zigbee2mqtt.io/information/supported_adapters.html).
+If you have the JetHome USB JetStick Z2 it will already have the necessary firmware so you don't need to flash it. However, if you have another adapter the first thing you need to flash it with zigbee2MQTT software. You can find instructions for your device [here](https://www.zigbee2mqtt.io/information/supported_adapters.html).
 
-Then we need to install ziqbee2mqtt software on Raspberry. Connect the adapter and verify the adapter address (it also may be `/dev/ttyUSB1`):
+Then we need to install the ziqbee2mqtt software on the  Raspberry PI. Connect the adapter and verify the adapter address (it also may be `/dev/ttyUSB1`):
 ```bash
 $ ls -l /dev/ttyUSB0
 crw-rw---- 1 root dialout 166, 0 May 16 19:15 /dev/ttyUSB0 
@@ -66,7 +66,7 @@ npm start
 ```
 ## Pairing device
 
-Then you need to pair your sensor. For that just long press the pover button untill it start to blink (zigbee2MQTT must be launched). After sensor connects you will see the message like:
+Then you need to pair your sensor. For that just long press the power button until it starts to blink (zigbee2MQTT must be launched). After sensor connects you will see the message like:
 ```
 Zigbee2MQTT:info  2019-11-09T12:19:56: Successfully interviewed '0x00158d0001dc126a', device has successfully been paired
 ```
@@ -211,13 +211,13 @@ Press on three dots on the right side and choose `Edit Dashboard`
 
 Then press `Add Card`
 
-![card](/media/card.png)
+![card](media/card.png)
 
 Go to `By Entity` and tick all sensors that you need
 
-![sensors](/media/sensors.png)
+![sensors](media/sensors.png)
 
-Pres continue and you will be able to see sensor data at the homepage (you may see `unknown` before sensor send new data)
+Press continue and you will be able to see sensor data at the homepage (you may see `unknown` before sensor send new data)
 
 In a similar way you can add card for Robonomics Service. With this you can start or stop the servise or send current measurements with `run action` button.
 

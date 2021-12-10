@@ -1,6 +1,6 @@
 # Sensors Connection Method 2 (with Xiaomi Gateway)
 
-You need your gateway with all sensors to be connected to the Mi Home app. If you haven't done this yet press `+` button on the top right corner, find your hub (it must be in connecting mode with long press to power button) and follow instructions in the app. After you add the gateway, you need to add sensors: press on your gateway, then go to `Child device` and press `+`. Find required device and follow the instructions on the screen. For more details look at user manual of your hub.
+You need your Xiaomi gateway along with all the sensors to be connected to the Mi Home app. If you haven't done this yet press `+` button on the top right corner, find your hub (it must be in connecting mode which is achieved via a long press of the power button) and follow instructions in the app. After you add the gateway, you need to add sensors: press on your gateway, then go to `Child device` and press `+`. Find required device and follow the instructions on the screen. For more details refer to the user manual of your Xiaomi Gateway hub.
 
 ## Add Gateway to Home Assistant
 Be sure that you're logged in you raspberry as `homeassistant` user, if not do the following:
@@ -32,7 +32,7 @@ You can also connect your hub to Aqara Home app on ios and then add it to Home A
 
 Add your hub to the app using `add device` or `+` button. Right after your hub added to Aqara Home app you will be proposed to bind it with your Homekit account. 
 
-<img src="https://github.com/airalab/robonomics-smarthome/blob/main/media/homekit.png" width="400">
+![homekit](media/homekit.png)
 
 When you see a menu like the picture, open your Home Assistant page:
 
