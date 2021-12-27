@@ -43,8 +43,8 @@ def listener(seed: str, address: str) -> None:
         time.sleep(12)
 
 if __name__ == '__main__':
-    keypair = read_config('python_scripts/config.config')
-    seed = keypair.seed_hex
-    address = keypair.ss58_address
+    config, ids = read_config('python_scripts/config.config')
+    seed = config['user'].seed_hex
+    address = config['user'].ss58_address
     listener(seed, address)
 

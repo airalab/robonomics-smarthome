@@ -148,5 +148,5 @@ automation:
         brightness: '{{ trigger.json.brightness }}'
 
 shell_command:
-  send_datalog_temperature_sensor: 'python3 python_scripts/send_datalog.py sensor_humidity={{ states("sensor.temperature_sensor_humidity") }} sensor_temp={{ states("sensor.temperature_sensor_temperature") }} sensor_battery={{ states("sensor.temperature_sensor_battery") }}'
-  send_datalog_contact_sensor: 'python3 python_scripts/send_datalog.py sensor_contact={{ states("binary_sensor.contact_sensor") }}'
+  send_datalog_temperature_sensor: 'python3 python_scripts/send_datalog.py temperature_sensor_humidity={{ states("sensor.temperature_sensor_humidity") }} temperature_sensor_temperature={{ states("sensor.temperature_sensor_temperature") }} temperature_sensor_battery={{ states("sensor.temperature_sensor_battery") }}'
+  send_datalog_contact_sensor: 'python3 python_scripts/send_datalog.py contact_sensor={{ states("binary_sensor.contact_sensor") }}'

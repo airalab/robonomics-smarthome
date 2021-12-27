@@ -48,44 +48,39 @@ Go to `Configuration/Integrations`. Here you can find your device discovered and
 
 ## Configuration file
 
-Then we need to setup action to send data to Robonomics. For that open a configuration file:
+After you've added your devices, you need to add them in a `config.config` file with their seeds. Firstly in `Configuration/Entities` tab in your Home Assistant find entity ids of your devices:
+
+![entity_id](media/entity_id.png)
+
+Open the configuration file:
+```bash
+nano /srv/homeassistant/python_scripts/config.config
+```
+And add there information of your devices in the following format:
+
+```
+[device_name]
+IDS = ['entity_id1', 'entity_id2']
+MNEMONIC_SEED = word word word
+```
+Where `device_name` is the name of your device (you can choose any name), `IDS` are entity ids of the data from the device (it may be one or more ids) and `MNEMONIC_SEED` is a mnemonic seed from robonomics account to this device.
+
+After you fill the configuration file you need to get access token from Home Assistant. For that open your `profile` in the lower left corner:
+
+![profile](media/profile.png)
+
+In the end of the page find `Long-Lived Access Tokens` and press `create token`. Save it somewhere, you will not be able to see it again.
+
+![token](media/token.png)
+
+Now run `create_config.py` script with your token:
 
 ```bash
-nano ~/.homeassistant/configuration.yaml
+cd /srv/homeassistant
+python3 python_scripts/create_config.py --token <access_token>
 ```
-
-And add following to the end of the file (full config file you can find [here](configuration.yaml)):
-
-```
-automation:
-  - alias: "send_datalog_temperature_sensor"
-    trigger:
-      platform: time_pattern
-      minutes: "/5"
-    action:
-      service: shell_command.send_datalog_temperature_sensor
-
-  - alias: "send_datalog_contact_sensor"
-    trigger:
-      platform: state
-      entity_id:
-        - binary_sensor.contact_sensor
-    action:
-      service: shell_command.send_datalog_contact_sensor
-
-shell_command:
-  send_datalog_temperature_sensor: 'python3 python_scripts/send_datalog.py sensor_humidity={{ states("sensor.temperature_sensor_humidity") }} sensor_temp={{ states("sensor.temperature_sensor_temperature") }} sensor_battery={{ states("sensor.temperature_sensor_battery") }}'
-  send_datalog_contact_sensor: 'python3 python_scripts/send_datalog.py sensor_contact={{ states("binary_sensor.contact_sensor") }}'
-```
-
-You can choose how often you want to send data with changing the value in `minutes: "/5"`.
-
->The names of the data in `shell_command` and `entity_id` like `sensor.temperature_sensor_humidity` or `binary_sensor.contact_sensor` may be different. You can find your option in `Configuration/Entities`. Find your sensor and copy Entity ID.
->
->![entity_id](media/entity_id.png)
-
 And restart Home Assistant:
 ```bash
 systemctl restart home-assistant@homeassistant.service
 ```
- You can add the data from sensors to your homepage like in `Home Assistant setup` in the description to [Method 1](zigbee2MQTT.md).
+You can add the data from sensors to your homepage like in `Home Assistant setup` in the description to [Method 1](zigbee2MQTT.md).

@@ -73,7 +73,7 @@ sudo nano /srv/homeassistant/python_scripts/config.config
 ```
 And add mnemonic:
 ```
-[secrets]
+[user]
 MNEMONIC_SEED = <your mnemonic>
 ```
 Then restart Robonomics Control service:

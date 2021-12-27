@@ -96,13 +96,17 @@ mkdir python_scripts
 cd python_scripts/
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/send_datalog.py
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/control.py
-wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/config.config
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/utils.py
+wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/create_config.py
 ```
 
-Add mnemonic seed from your account in config.config:
+Add mnemonic seed from your account in `config.config` file:
+```bash
+nano /srv/homeassistant/python_scripts/config.config
 ```
-[secrets]
+In this format:
+```
+[user]
 MNEMONIC_SEED = <your mnemonic>
 ```
 

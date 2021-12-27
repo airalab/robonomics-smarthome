@@ -1,0 +1,225 @@
+default_config:
+
+tts:
+  - platform: google_translate
+group: !include groups.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+automation:
+- action:
+    service: shell_command.send_datalog_robot_vacuum
+  alias: send_datalog_robot_vacuum
+  trigger:
+    entity_id:
+    - vacuum.robot_vacuum
+    platform: state
+- action:
+    service: shell_command.send_datalog_robot_vacuum
+  alias: send_datalog_robot_vacuum
+  trigger:
+    minutes: /1
+    platform: time_pattern
+- action:
+    service: vacuum.turn_on
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_turn_on
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_turn_on
+- action:
+    service: vacuum.turn_off
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_turn_off
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_turn_off
+- action:
+    service: vacuum.toggle
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_toggle
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_toggle
+- action:
+    service: vacuum.start_pause
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_start_pause
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_start_pause
+- action:
+    service: vacuum.start
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_start
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_start
+- action:
+    service: vacuum.pause
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_pause
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_pause
+- action:
+    service: vacuum.return_to_base
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_return_to_base
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_return_to_base
+- action:
+    service: vacuum.clean_spot
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_clean_spot
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_clean_spot
+- action:
+    service: vacuum.locate
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_locate
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_locate
+- action:
+    service: vacuum.stop
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_stop
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_stop
+- action:
+    service: vacuum.set_fan_speed
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_set_fan_speed
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_set_fan_speed
+- action:
+    service: vacuum.send_command
+    target:
+      entity_id:
+      - vacuum.robot_vacuum
+  alias: robot_vacuum_send_command
+  trigger:
+    platform: webhook
+    webhook_id: robot_vacuum_send_command
+- action:
+    service: shell_command.send_datalog_temperature_sensor
+  alias: send_datalog_temperature_sensor
+  trigger:
+    entity_id:
+    - sensor.temperature_sensor_temperature
+    platform: state
+- action:
+    service: shell_command.send_datalog_temperature_sensor
+  alias: send_datalog_temperature_sensor
+  trigger:
+    minutes: /1
+    platform: time_pattern
+- action:
+    service: shell_command.send_datalog_lightbulb
+  alias: send_datalog_lightbulb
+  trigger:
+    entity_id:
+    - light.lightbulb
+    platform: state
+- action:
+    service: shell_command.send_datalog_lightbulb
+  alias: send_datalog_lightbulb
+  trigger:
+    minutes: /5
+    platform: time_pattern
+- action:
+    data:
+      brightness: '{{ trigger.json.brightness }}'
+    service: light.turn_on
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_turn_on_brightness
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_turn_on_brightness
+- action:
+    data:
+      rgb_color: '[{{ trigger.json.r }}, {{ trigger.json.g }}, {{ trigger.json.b }}]'
+    service: light.turn_on
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_turn_on_rgb_color
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_turn_on_rgb_color
+- action:
+    data:
+      effect: '{{ trigger.json.effect }}'
+    service: light.turn_on
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_turn_on_effect
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_turn_on_effect
+- action:
+    service: light.turn_on
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_turn_on
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_turn_on
+- action:
+    service: light.turn_off
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_turn_off
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_turn_off
+- action:
+    service: light.toggle
+    target:
+      entity_id:
+      - light.lightbulb
+  alias: lightbulb_toggle
+  trigger:
+    platform: webhook
+    webhook_id: lightbulb_toggle
+shell_command:
+  send_datalog_lightbulb: python3 python_scripts/send_datalog.py lightbulb light.lightbulb:{{
+    states("light.lightbulb") }}
+  send_datalog_robot_vacuum: python3 python_scripts/send_datalog.py robot_vacuum vacuum.robot_vacuum:{{
+    states("vacuum.robot_vacuum") }}
+  send_datalog_temperature_sensor: python3 python_scripts/send_datalog.py temperature_sensor
+    sensor.temperature_sensor_temperature:{{ states("sensor.temperature_sensor_temperature")
+    }} sensor.temperature_sensor_humidity:{{ states("sensor.temperature_sensor_humidity")
+    }}
