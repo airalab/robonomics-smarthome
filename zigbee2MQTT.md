@@ -226,3 +226,16 @@ In a similar way you can add card for Robonomics Service. With this you can star
 You homepage will look like this
 
 ![home](media/home.png)
+
+You can see the data in [subscan](https://robonomics.subscan.io/), find your account and you will see datalog transactions. You can decrypt the data with script [decrypt.py](python_scripts/decrypt.py), download it:
+
+```bash
+cd /srv/homeassistant/python_scripts
+wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/decrypt.py
+```
+And run with the data from datalog:
+```bash
+cd /srv/homeassistant/
+source bin/activate
+python3 python_scripts/decrypt.py <data>
+```

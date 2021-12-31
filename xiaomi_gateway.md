@@ -89,3 +89,20 @@ And restart Home Assistant:
 systemctl restart home-assistant@homeassistant.service
 ```
  You can add the data from sensors to your homepage like in `Home Assistant setup` in the description to [Method 1](zigbee2MQTT.md).
+
+You can see the data in [subscan](https://robonomics.subscan.io/), find your account and you will see datalog transactions. Data looks like this:
+
+![datalog_data](media/datalog_data.png)
+
+You can decrypt it with script [decrypt.py](python_scripts/decrypt.py), download it:
+
+```bash
+cd /srv/homeassistant/python_scripts
+wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/decrypt.py
+```
+And run with the data from datalog:
+```bash
+cd /srv/homeassistant/
+source bin/activate
+python3 python_scripts/decrypt.py <data>
+```
