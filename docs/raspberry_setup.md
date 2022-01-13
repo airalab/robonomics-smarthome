@@ -88,7 +88,7 @@ hass
 ```
 You can now reach your installation via the web interface on `http://localhost:8123`. Create user and finish setup, then stop Home Assistant with `Ctrl+C`.
 
-After this installation process has been completed, from the`scripts` folder import `send_datalog.py` script which will send received data to Robonomics, `control.py` which allows home assistant to receive commands from datalog, and file `config.config`, containing mnemonic seed:
+After this installation process has been completed, from the`python_scripts` folder import some necessary scripts:
 
 ```bash
 cd /srv/homeassistant/
@@ -102,7 +102,7 @@ wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/encrypt.py
 ```
 
-Add mnemonic seed from your account in `config.config` file:
+Add mnemonic seed from your user account in `config.config` file:
 ```bash
 nano /srv/homeassistant/python_scripts/config.config
 ```
