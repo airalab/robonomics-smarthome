@@ -98,6 +98,8 @@ wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/control.py
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/utils.py
 wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/create_config.py
+wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/decrypt.py
+wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/encrypt.py
 ```
 
 Add mnemonic seed from your account in `config.config` file:
