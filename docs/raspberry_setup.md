@@ -4,7 +4,7 @@ For both methods, the first thing you need to do is setup a Raspberry Pi.
 
 Install [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer. Then, insert the SD card and run the Imager program. From the menu, select 64-bit Ubuntu Server as the operating system and ensure to select your SD card from the storage dropdown, and then press `write`.
 
-![pi](media/pi.png)
+![pi](../media/pi.png)
 
 Open the SD card's storage from your computer and navigate inside the root folder of the card. The name of the folder should be something similar to `system-boot`.
 

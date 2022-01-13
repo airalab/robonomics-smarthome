@@ -11,77 +11,58 @@ http://<raspberry_address>:8123
 
 Go to `Integrations` tab, press `Add integration` and choose `Xiaomi Miio`:
 
-![integration](media/integration.png)
+![integration](../media/integration.png)
 
 Then fill your username (or phone) and password from Mi Home account and choose your country server:
 
-![auth](media/auth.png)
+![auth](../media/auth.png)
 
 Press `Submit` and choose your Vacuum (Robot vacuum in this example):
 
-![vacuum](media/vacuum_int.png)
+![vacuum](../media/vacuum_int.png)
 
 Then we need to setup action to control Vacuum through Robonomics. For that open a configuration file on your raspberry pi:
 
 ```bash
-nano ~/.homeassistant/configuration.yaml
+nano /srv/homeassistant/python_scripts/config.config
 ```
 
-And add following to the end of the file (full config file you can find [here](configuration.yaml)):
+And add information about vacuum to the end of the file:
 
-```yaml
-automation:
-  - alias: "vacuum_start"
-    trigger:
-      platform: webhook
-      webhook_id: "vacuum_start"
-    action:
-      service: vacuum.start
-      target:
-        entity_id:
-          - vacuum.robot_vacuum
-
-  - alias: "vacuum_pause"
-    trigger:
-      platform: webhook
-      webhook_id: "vacuum_pause"
-    action:
-      service: vacuum.pause
-      target:
-        entity_id:
-          - vacuum.robot_vacuum
-
-  - alias: "vacuum_return_to_base"
-    trigger:
-      platform: webhook
-      webhook_id: "vacuum_return_to_base"
-    action:
-      service: vacuum.return_to_base
-      target:
-        entity_id:
-          - vacuum.robot_vacuum
 ```
+[robot_vacuum]
+IDS = ['vacuum.robot_vacuum']
+SEED = word word word word
+```
+Where `vacuum.robot_vacuum` is Entity ID of the vacuum.
+
+After you fill the configuration file you need to get access token from Home Assistant if you don't have it yet. For that open your `profile` in the lower left corner:
+
+![profile](../media/profile.png)
+
+In the end of the page find `Long-Lived Access Tokens` and press `create token`. Save it somewhere, you will not be able to see it again.
+
+![token](../media/token.png)
+
+Now run `create_config.py` script with your token:
+
+```bash
+cd /srv/homeassistant
+python3 python_scripts/create_config.py --token <access_token>
+```
+
 And restart Home Assistant:
 ```bash
 systemctl restart home-sistant@homeassistant.service
 ```
 
-Now you can create datalog in your account to command robot to Start Cleaning, to Pause or to Return to Base. The message must be encrypted. you can send encrypted message with [send_datalog.py](scripts/send_datalog.py) script that you used in [Raspberry Setup](raspberry_setup.py) page.
-Run the script in a new terminal with message to start cleaning:
+Now you can create datalog in your user account to command robot to Start Cleaning, to Pause or to Return to Base. The message must be encrypted, you can encrypt message with [encrypt.py](python_scripts/encrypt.py) script:
 ```bash
 cd /srv/homeassistant/python_scripts
 source /srv/homeassistant/bin/activate
-python3 send_datalog.py "{ \"agent\" : \"vacuum_start\" }"
+python3 encrypt.py <message>
 ```
-to pause:
-```bash
-cd /srv/homeassistant/python_scripts
-source /srv/homeassistant/bin/activate
-python3 send_datalog.py "{ \"agent\" : \"vacuum_pause\" }"
-```
-to return to base:
-```bash
-cd /srv/homeassistant/python_scripts
-source /srv/homeassistant/bin/activate
-python3 send_datalog.py "{ \"agent\" : \"vacuum_return_to_base\" }"
-```
+Message format:
+- to pause: `{"agent": "vacuum_start"}`
+- to pause: `{"agent": "vacuum_pause"}`
+- to return to base: `{"agent": "vacuum_return_to_base"}`

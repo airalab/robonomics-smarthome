@@ -207,22 +207,22 @@ http://<raspberry_address>:8123
 ```
 Press on three dots on the right side and choose `Edit Dashboard`
 
-![edit_dashboard](media/dashboard.png)
+![edit_dashboard](../media/dashboard.png)
 
 Then press `Add Card`
 
-![card](media/card.png)
+![card](../media/card.png)
 
 Go to `By Entity` and tick all sensors that you need
 
-![sensors](media/sensors.png)
+![sensors](../media/sensors.png)
 
 Press continue and you will be able to see sensor data at the homepage (you may see `unknown` before sensor send new data)
 
 In a similar way you can add card for Robonomics Service. With this you can start or stop the servise or send current measurements with `run action` button.
 
-![action](media/datalog.png)
+![action](../media/datalog.png)
 
 You homepage will look like this
 
-![home](media/home.png)
+![home](../media/home.png)

@@ -14,15 +14,15 @@ http://<raspberry_address>:8123
 ```
 Go to `Configuration/Integrations` and press `Add Intagration`. There you need to Find `Xiaomi Miio`:
 
-![integration](media/integration.png)
+![integration](../media/integration.png)
 
 Then fill your username (or phone) and password from Mi Home account and choose your country server:
 
-![auth](media/auth.png)
+![auth](../media/auth.png)
 
 Press `Submit` and choose your Hub (Aqara Hub in this example):
 
-![hub](media/hub.png)
+![hub](../media/hub.png)
 
 Press `Submit` and you will be able to see your gateway in Integrations page.
 
@@ -32,7 +32,7 @@ You can also connect your hub to Aqara Home app on ios and then add it to Home A
 
 Add your hub to the app using `add device` or `+` button. Right after your hub added to Aqara Home app you will be proposed to bind it with your Homekit account. 
 
-![homekit](media/homekit.png)
+![homekit](../media/homekit.png)
 
 When you see a menu like the picture, open your Home Assistant page:
 
@@ -41,16 +41,16 @@ http://<raspberry_address>:8123
 ```
 Go to `Configuration/Integrations`. Here you can find your device discovered and click `Configure` button to add it by Homekit Controller integration. You have to enter pairing code of your device, which you can find on the sticker on your device.
 
-![configure1](media/configure1.png)
+![configure1](../media/configure1.png)
 
-![configure2](media/configure2.png)
+![configure2](../media/configure2.png)
 
 
 ## Configuration file
 
 After you've added your devices, you need to add them in a `config.config` file with their seeds. Firstly in `Configuration/Entities` tab in your Home Assistant find entity ids of your devices:
 
-![entity_id](media/entity_id.png)
+![entity_id](../media/entity_id.png)
 
 Open the configuration file:
 ```bash
@@ -67,11 +67,11 @@ Where `device_name` is the name of your device (you can choose any name), `IDS` 
 
 After you fill the configuration file you need to get access token from Home Assistant. For that open your `profile` in the lower left corner:
 
-![profile](media/profile.png)
+![profile](../media/profile.png)
 
 In the end of the page find `Long-Lived Access Tokens` and press `create token`. Save it somewhere, you will not be able to see it again.
 
-![token](media/token.png)
+![token](../media/token.png)
 
 Now run `create_config.py` script with your token:
 
