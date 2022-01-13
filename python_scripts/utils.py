@@ -10,16 +10,20 @@ def read_config(path: str) -> dict:
     keypairs = {}
     ids = {}
     for section in sections:
-        mnemonic = config.get(section, 'MNEMONIC_SEED')
+        mnemonic = config.get(section, 'SEED')
         if section != 'user':
             ids[section] = config.get(section, 'IDS')
-        keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+        if mnemonic[:2] == '0x':
+            keypair = Keypair.create_from_seed(mnemonic, ss58_format=32)
+        else:
+            keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+        Keypair.create_from_seed
         keypairs[section] = keypair
     return keypairs, ids
 
 def connect_robonomics() -> SubstrateInterface:
     substrate = SubstrateInterface(
-            url="wss://main.frontier.rpc.robonomics.network",
+            url="wss://kusama.rpc.robonomics.network",
             ss58_format=32,
             type_registry_preset="substrate-node-template",
             type_registry= {

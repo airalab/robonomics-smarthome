@@ -61,9 +61,9 @@ And add there information of your devices in the following format:
 ```
 [device_name]
 IDS = ['entity_id1', 'entity_id2']
-MNEMONIC_SEED = word word word
+SEED = word word word
 ```
-Where `device_name` is the name of your device (you can choose any name), `IDS` are entity ids of the data from the device (it may be one or more ids) and `MNEMONIC_SEED` is a mnemonic seed from robonomics account to this device.
+Where `device_name` is the name of your device (you can choose any name), `IDS` are entity ids of the data from the device (it may be one or more ids) and `SEED` is a mnemonic or raw seed from robonomics account to this device.
 
 After you fill the configuration file you need to get access token from Home Assistant. For that open your `profile` in the lower left corner:
 

@@ -15,8 +15,7 @@ if __name__ == '__main__':
     for mes in data:
         mes = mes.split(':')
         measurements[mes[0]] = mes[1]
-    data = {'id': name, 'data': measurements}
-    text = encrypt(seed_user, str(data))
+    text = encrypt(seed_user, str(measurements))
 
     print(f"Got message: {data}")
     call = substrate.compose_call(

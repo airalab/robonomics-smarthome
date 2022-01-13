@@ -107,7 +107,7 @@ nano /srv/homeassistant/python_scripts/config.config
 In this format:
 ```
 [user]
-MNEMONIC_SEED = <your mnemonic>
+SEED = <your mnemonic or raw seed>
 ```
 
 ## Substrate Interface

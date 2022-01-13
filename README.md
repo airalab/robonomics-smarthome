@@ -1,5 +1,10 @@
-This repo contains instructions on how to connect your smart home devices to the Robonomics network through a Home Assistant. There will be two methods which will be explained to help you connect your device to a Raspberry Pi; via a zigbee2MQTT adapter, or through Xiaomi Gateway.
-# Requirements
+This repo contains instructions on how to connect your smart home devices to the Robonomics network. You need Robonomics accounts for each device, they will publish encrypted data in datalog. Also you need user account that will send commands to devices end encrypt/decrypt data.
+
+# Home Assistant
+
+Most of smart devices can be connected through Home Assistant.
+
+## Requirements
 
 * Raspberry Pi 4 or 3
 * SD card and SD adapter
@@ -14,10 +19,14 @@ This repo contains instructions on how to connect your smart home devices to the
 
 Also you can connect some devices directly through Mi Home app (for example, Vacuum Cleaner).
 
-# Setup
+## Setup
 
 1. First you need to [setup Raspberry Pi](raspberry_setup.md) (also you can [use prepared image](raspberry_image.md)).
 2. Then you need to connect devices:
 - [Connection with zigbee2MQTT](zigbee2MQTT.md)
 - [Connection through Xiaomi Gateway](xiaomi_gateway.md)
 - [Connect Vacuum Cleaner](vacuum_connect.md)
+
+# Without Home Assistant
+
+It is also possible to connect devices directly to Robonomics. There is an instruction how to get encrypted data from [SDS011 particle sensor](sds_connect.md). 
