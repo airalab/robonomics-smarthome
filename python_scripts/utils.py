@@ -12,7 +12,7 @@ def read_config(path: str) -> Keypair:
 
 def connect_robonomics() -> SubstrateInterface:
     substrate = SubstrateInterface(
-            url="wss://main.frontier.rpc.robonomics.network",
+            url="wss://kusama.rpc.robonomics.network",
             ss58_format=32,
             type_registry_preset="substrate-node-template",
             type_registry= {
