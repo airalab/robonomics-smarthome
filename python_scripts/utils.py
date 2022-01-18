@@ -11,13 +11,16 @@ def read_config(path: str) -> dict:
     ids = {}
     for section in sections:
         mnemonic = config.get(section, 'SEED')
-        if section != 'user':
-            ids[section] = config.get(section, 'IDS')
-        if mnemonic[:2] == '0x':
-            keypair = Keypair.create_from_seed(mnemonic, ss58_format=32)
-        else:
-            keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
-        Keypair.create_from_seed
+        try:
+            if section != 'user':
+                ids[section] = config.get(section, 'IDS')
+            if mnemonic[:2] == '0x':
+                keypair = Keypair.create_from_seed(mnemonic, ss58_format=32)
+            else:
+                keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+        except Exception as e:
+            print(f"Can't read seed with error {e}")
+            keypair = None
         keypairs[section] = keypair
     return keypairs, ids
 
