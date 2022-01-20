@@ -24,6 +24,14 @@ def read_config(path: str) -> dict:
         keypairs[section] = keypair
     return keypairs, ids
 
+def add_seed_to_config(path: str, seed: str, device: str) -> None:
+    config = configparser.ConfigParser()
+    config.read(path)
+    config[device]['SEED'] = seed
+    with open(path, 'w') as configfile:
+        config.write(configfile)
+
+
 def connect_robonomics() -> SubstrateInterface:
     substrate = SubstrateInterface(
             url="wss://kusama.rpc.robonomics.network",

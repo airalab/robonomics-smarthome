@@ -1,66 +1,82 @@
 import threading
-import time
-from collections import deque
-import typing as tp
 from ast import literal_eval
+import serial
+from substrateinterface import Keypair
 
-from drivers.sds011 import SDS011
-from config_sds import CONFIG
-from utils import read_config, connect_robonomics, encrypt
+from utils import read_config, connect_robonomics, encrypt, add_seed_to_config
 
 
-def _read_data_thread(sensor: SDS011, q: deque) -> None:
+ON_SENDING = False
+
+def _read_data_thread() -> None:
+    global ON_SENDING
+    keypairs, ids = read_config('python_scripts/config.config')
+    data = {}
+    try:
+        ser = serial.Serial('/dev/ttyUSB0')
+    except:
+        ser = serial.Serial('/dev/ttyUSB1')
     while True:
-        meas = sensor.query()
-        timestamp = int(time.time())
-        q.append((meas, timestamp))
+        line = ser.readline()
+        ids_list = literal_eval(ids['SDS'])
+        for id in ids_list:
+            if str(line[:len(id)])[2:-1] == id:
+                line = str(line)
+                line = line.split(':')
+                data[id] = line[1][:-6].strip()
+        if "Sending to sensor.community - GPS" in str(line):
+            print(f"data: {data}")
+            if ON_SENDING:
+                send_datalog(data)
+            data = {}
 
+def send_datalog(data: str) -> None:
+    keypairs, ids = read_config('python_scripts/config.config')
+    substrate = connect_robonomics()
+    seed_user = keypairs['user'].seed_hex
+    keypair_device = keypairs['SDS']
+    text = encrypt(seed_user, str(data))
+    print(f"Got message: {data}")
+    call = substrate.compose_call(
+            call_module="Datalog",
+            call_function="record",
+            call_params={
+                'record': text
+            }
+        )
+    extrinsic = substrate.create_signed_extrinsic(call=call, keypair=keypair_device)
+    receipt = substrate.submit_extrinsic(extrinsic, wait_for_inclusion=True)
+    print(f"Datalog created with extrinsic hash: {receipt.extrinsic_hash}")               
 
-class COMStation:
-    """
-    Reads data from a serial port
-    """
-
+class LaunchListener:
     def __init__(self) -> None:
-        self.sensor = SDS011(CONFIG["port"])
-        self.q = deque(maxlen=1)
-        work_period = int(CONFIG["work_period"])
-        self.sensor.set_work_period(work_time=int(work_period / 60))
-        threading.Thread(target=_read_data_thread, args=(self.sensor, self.q)).start()
+        self.substrate = connect_robonomics()
+        keypairs, ids = read_config('python_scripts/config.config')
+        self.keypair_device = keypairs['SDS']
+        if self.keypair_device == None:
+            mnemonic = Keypair.generate_mnemonic()
+            self.keypair_device = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+            print(f"Generated account {self.keypair_device.ss58_address}")
+            add_seed_to_config(path='python_scripts/config.config', seed=mnemonic, device='SDS')
+        threading.Thread(target=_read_data_thread).start()
 
-    def get_data(self) -> tp.Tuple[float, float]:
-        if self.q:
-            values = self.q[0]
-            pm = values[0]
-            pm25 = pm[0]
-            pm10 = pm[1]
-        print(f"Data: {pm25}, {pm10}")
-        return (pm25, pm10)
-
-    def send_datalog(self, pm25: float, pm10: float) -> str:
-        config, ids = read_config('python_scripts/config.config')
-        substrate = connect_robonomics()
-        seed_user = config['user'].seed_hex
-        keypair_device = config['SDS']
-        data_ids = literal_eval(ids['SDS'])
-        data = {data_ids[0]: pm25, data_ids[1]: pm10}
-        text = encrypt(seed_user, str(data))
-        print(f"Got message: {data}")
-        call = substrate.compose_call(
-                call_module="Datalog",
-                call_function="record",
-                call_params={
-                    'record': text
-                }
-            )
-        extrinsic = substrate.create_signed_extrinsic(call=call, keypair=keypair_device)
-        receipt = substrate.submit_extrinsic(extrinsic, wait_for_inclusion=True)
-        print(f"Datalog created with extrinsic hash: {receipt.extrinsic_hash}")
+    def subscription_handler(self, obj, update_nr, subscription_id) -> None:
+        ch = self.substrate.get_chain_head()
+        chain_events = self.substrate.get_events(ch)
+        global ON_SENDING
+        for ce in chain_events:
+            if ce.value["event_id"] == "NewLaunch" and ce.params[1] == self.keypair_device.ss58_address:
+                if ce.params[2]:
+                    print(f'"ON" launch command from employer')
+                    ON_SENDING = True
+                else:
+                    ON_SENDING = False
+                    print(f'"OFF" launch command from employer')
+    
+    def spin(self) -> None:
+        self.substrate.subscribe_block_headers(self.subscription_handler)
 
 
 if __name__ == "__main__":
-    s = COMStation()
-    while True:
-        time.sleep(CONFIG["work_period"])
-        pm25, pm10 = s.get_data()
-        s.send_datalog(pm25, pm10)
+    s = LaunchListener()
+    s.spin()
