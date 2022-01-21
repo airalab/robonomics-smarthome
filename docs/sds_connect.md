@@ -6,12 +6,7 @@
 
 ## Installation
 
-Install python packages:
-```bash
-pip3 install pynacl packaging pycurl
-pip3 install substrate-interface==1.1.2
-```
-Also you need to get access to the USB port adding your user to dialout group:
+You need to get access to the USB port adding your user to dialout group:
 ```bash
 sudo usermod -a -G dialout $USER
 ```
@@ -38,11 +33,16 @@ SEED =
 ```
 In `IDS` write names of all your sensors data. It must match the names in ESP logs (you can find it in `debug level` page in your sensor web interface).
 
+Then build docker image:
+```bash
+docker build -t sds_robonomics .
+```
+
 ## Run
 
-Connect ESP via USB to the computer and run script `run_sds.py`:
+Connect ESP via USB to the computer and run docker container:
 ```bash
-python3 python_scripts/run_sds.py
+docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts --name sds_robonomics sds_robonomics
 ```
 If you didn't write seed for SDS in config, it will be automatically created and you will see public address in terminal (seed will be added to the config). To start publish encrypted data to Robonomics you need XRT in you sensor account and `launch` transaction to it. With launch transactions you can stop and start sending data to Robonomics.
 
@@ -57,7 +57,7 @@ mkdir smarthome && cd smarthome
 git clone https://github.com/tubleronchik/robonomics_smarthome
 cd robonomics_smarthome/config
 ```
-Create file ``congig.py`` using the template ``config_template.py`` amd add there public addresses of your devices (currently temperature, and humidity sensor, vaccum and lightbulb. All other devices can be added via "Add device" option in app).
+Create file `congig.py` using the template `config_template.py` amd add there public addresses of your devices (currently temperature, and humidity sensor, vaccum and lightbulb. All other devices can be added via "Add device" option in app).
 
 You can run app using docker docker:
 ```

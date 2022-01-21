@@ -50,6 +50,7 @@ def send_datalog(data: str) -> None:
 
 class LaunchListener:
     def __init__(self) -> None:
+        print("Start reading data")
         self.substrate = connect_robonomics()
         keypairs, ids = read_config('python_scripts/config.config')
         self.keypair_device = keypairs['SDS']
