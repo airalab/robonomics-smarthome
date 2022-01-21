@@ -6,9 +6,14 @@
 
 ## Installation
 
-You need to get access to the USB port adding your user to dialout group:
+You need to get access to the USB port adding your user to `dialout` group (it works for ubuntu, but the name of the group may be different on other OS).
+For ubuntu:
 ```bash
 sudo usermod -a -G dialout $USER
+```
+For arch:
+```bash
+sudo usermod -a -G uucp $USER
 ```
 Then logout and login or restart the computer.
 
@@ -23,7 +28,7 @@ Create file `config.config` in `python_scripts` directory:
 ```bash
 nano python_scripts/config.config
 ```
-And add there information about your user account:
+And add there information about your user account (instruction of how to create account is [here](https://wiki.robonomics.network/docs/en/create-account-in-dapp/)):
 ```
 [user]
 SEED = <raw_or_mnemonic_seed_from_your_user_account>
