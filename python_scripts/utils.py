@@ -3,12 +3,34 @@ import nacl.secret
 import base64
 import configparser
 
-def read_config(path: str) -> Keypair:
+def read_config(path: str) -> dict:
     config = configparser.ConfigParser()
     config.read(path)
-    mnemonic = config.get('secrets', 'MNEMONIC_SEED')
-    keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
-    return keypair
+    sections = config.sections()
+    keypairs = {}
+    ids = {}
+    for section in sections:
+        mnemonic = config.get(section, 'SEED')
+        try:
+            if section != 'user':
+                ids[section] = config.get(section, 'IDS')
+            if mnemonic[:2] == '0x':
+                keypair = Keypair.create_from_seed(mnemonic, ss58_format=32)
+            else:
+                keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+        except Exception as e:
+            print(f"Can't read seed with error {e}")
+            keypair = None
+        keypairs[section] = keypair
+    return keypairs, ids
+
+def add_seed_to_config(path: str, seed: str, device: str) -> None:
+    config = configparser.ConfigParser()
+    config.read(path)
+    config[device]['SEED'] = seed
+    with open(path, 'w') as configfile:
+        config.write(configfile)
+
 
 def connect_robonomics() -> SubstrateInterface:
     substrate = SubstrateInterface(

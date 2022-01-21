@@ -22,29 +22,27 @@ def listener(seed: str, address: str) -> None:
         events = substrate.get_events(ch)
         for e in events:
             if e.value["event_id"] == "NewRecord":
-                print(f"new record {e}")
-                print(e.params[1]["value"])
-                if e.params[0]["value"] == address:
-                    print(f"new record {e}")
-                    for p in e.params:
-                        print(p)
-                        if p["type"] == "Record":
-                            try:
-                                data = bytes.fromhex(p['value'][2:]).decode('utf-8')
-                                print(f"data: {data}")
-                                decrypted = decrypt(seed, data)
-                                print(f"decrypted {decrypted}")
-                                order = json.loads(decrypted)
-                                agent = order["agent"]
-                                del order["agent"]
-                                request_sender(order, "http://localhost:8123/api/webhook/" + agent)
-                            except Exception as e:
-                                print(f"Exception: {e}")
+                #print(f"new record {e}")
+                #print(f"address {e.params[0]}")
+                #print(address)
+                if e.params[0] == address:
+                    print(f"addr new record {e}")
+                    data_encrypted = e.params[2]
+                    try:
+                        print(f"data: {data_encrypted}")
+                        decrypted = decrypt(seed, data_encrypted)
+                        print(f"decrypted {decrypted}")
+                        order = json.loads(decrypted)
+                        agent = order["agent"]
+                        del order["agent"]
+                        request_sender(order, "http://localhost:8123/api/webhook/" + agent)
+                    except Exception as e:
+                        print(f"Exception: {e}")
         time.sleep(12)
 
 if __name__ == '__main__':
-    keypair = read_config('python_scripts/config.config')
-    seed = keypair.seed_hex
-    address = keypair.ss58_address
+    config, ids = read_config('python_scripts/config.config')
+    seed = config['user'].seed_hex
+    address = config['user'].ss58_address
     listener(seed, address)
 
