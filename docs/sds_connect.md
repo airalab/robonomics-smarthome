@@ -51,7 +51,11 @@ docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts --name sd
 ```
 If you didn't write seed for SDS in config, it will be automatically created and you will see public address in terminal (seed will be added to the config). To start publish encrypted data to Robonomics you need XRT in you sensor account and `launch` transaction to it. With launch transactions you can stop and start sending data to Robonomics.
 
-You will be able to see your encrypted data in sensors's account datalog in [subscan](https://robonomics.subscan.io/). You can decrypt it with `decrypt.py` script:
+You will be able to see your encrypted data in sensors's account datalog in [subscan](https://robonomics.subscan.io/). You can decrypt it with `decrypt.py` script. Exec the container:
+```bash
+docker exec -ti sds_robonomics bash
+```
+And run the script:
 ```bash
 python3 python_scripts/decrypt.py <encrypted_data>
 ```
