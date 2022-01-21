@@ -50,3 +50,48 @@ You will be able to see your encrypted data in sensors's account datalog in [sub
 ```bash
 python3 python_scripts/decrypt.py <encrypted_data>
 ```
+
+## Install & run smarthome app
+```
+mkdir smarthome && cd smarthome
+git clone https://github.com/tubleronchik/robonomics_smarthome
+cd robonomics_smarthome/config
+```
+Create file ``congig.py`` using the template ``config_template.py`` amd add there public addresses of your devices (currently temperature, and humidity sensor, vaccum and lightbulb. All other devices can be added via "Add device" option in app).
+
+You can run app using docker docker:
+```
+cd ..
+docker build --tag app .  
+docker run -p 8000:8000 app   
+```
+Or like python app:
+```
+cd ..
+pip3 install -r requirements.txt
+uvicorn app:app
+```
+In another terminal:
+```
+cd <path to smarthome directory>
+git clone https://github.com/IvanGlebov/robonomics-smarthome-frontend
+cd robonomics-smarthome-frontend
+```
+Create file ``.env`` to the directory with public addresses of your sensors:
+```
+ID_AQUARA=
+ID_VACUUM=
+ID_LAMP=
+```
+### Building
+It may take some time.
+```
+yarn install
+yarn build
+```
+All build files will be located inside `/dist` folder.
+### Dev deployment
+```
+yarn develop
+```
+You can find server on `http://localhost:8080`
