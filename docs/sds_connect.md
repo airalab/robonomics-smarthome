@@ -95,3 +95,9 @@ All build files will be located inside `/dist` folder.
 yarn develop
 ```
 You can find server on `http://localhost:8080`
+
+### Add SDS device
+
+Press `Add New Device` button in the end of the page and write name and device id. Device id is the public address of the sensor. Then add parameters via `Add Parameter` button, parameters must be the same as from config file ('PM10', 'PM2.5', 'CO2', 'TVOC', 'Temperature', 'Humidity'). And press `Add New Device` button.
+
+ ![dapp](../media/dapp.jpg)
