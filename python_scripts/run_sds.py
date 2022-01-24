@@ -2,6 +2,7 @@ import threading
 from ast import literal_eval
 import serial
 from substrateinterface import Keypair
+import os
 
 from utils import read_config, connect_robonomics, encrypt, add_seed_to_config
 
@@ -24,7 +25,7 @@ def _read_data_thread() -> None:
                 line = str(line)
                 line = line.split(':')
                 data[id] = line[1][:-6].strip()
-        if "Sending to sensor.community - GPS" in str(line):
+        if "Time for Sending" in str(line):
             print(f"data: {data}")
             if ON_SENDING:
                 send_datalog(data)
@@ -33,7 +34,12 @@ def _read_data_thread() -> None:
 def send_datalog(data: str) -> None:
     keypairs, ids = read_config('python_scripts/config.config')
     substrate = connect_robonomics()
-    seed_user = keypairs['user'].seed_hex
+    user_seed = os.environ['USER_SEED']
+    if user_seed[:2] == '0x':
+        keypair_user = Keypair.create_from_seed(user_seed)
+    else:
+        keypair_user = Keypair.create_from_mnemonic(user_seed)
+    seed_user = keypair_user.seed_hex
     keypair_device = keypairs['SDS']
     text = encrypt(seed_user, str(data))
     print(f"Got message: {data}")
@@ -59,6 +65,8 @@ class LaunchListener:
             self.keypair_device = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
             print(f"Generated account {self.keypair_device.ss58_address}")
             add_seed_to_config(path='python_scripts/config.config', seed=mnemonic, device='SDS')
+        else:
+            print(f"Your sensor address: {self.keypair_device.ss58_address}")
         threading.Thread(target=_read_data_thread).start()
 
     def subscription_handler(self, obj, update_nr, subscription_id) -> None:
