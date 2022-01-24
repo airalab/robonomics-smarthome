@@ -77,6 +77,7 @@ Now run `create_config.py` script with your token:
 
 ```bash
 cd /srv/homeassistant
+source bin/activate
 python3 python_scripts/create_config.py --token <access_token>
 ```
 And restart Home Assistant:
@@ -87,15 +88,9 @@ systemctl restart home-assistant@homeassistant.service
 
 You can see the data in [subscan](https://robonomics.subscan.io/), find your account and you will see datalog transactions. Data looks like this:
 
-![datalog_data](media/datalog_data.png)
+![datalog_data](../media/datalog_data.png)
 
-You can decrypt it with script [decrypt.py](python_scripts/decrypt.py), download it:
-
-```bash
-cd /srv/homeassistant/python_scripts
-wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_scripts/decrypt.py
-```
-And run with the data from datalog:
+You can decrypt it with script [decrypt.py](python_scripts/decrypt.py), run it with the data from datalog:
 ```bash
 cd /srv/homeassistant/
 source bin/activate

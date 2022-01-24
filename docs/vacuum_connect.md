@@ -30,7 +30,7 @@ nano /srv/homeassistant/python_scripts/config.config
 And add information about vacuum to the end of the file:
 
 ```
-[robot_vacuum]
+[vacuum]
 IDS = ['vacuum.robot_vacuum']
 SEED = word word word word
 ```
@@ -66,3 +66,5 @@ Message format:
 - to pause: `{"agent": "vacuum_start"}`
 - to pause: `{"agent": "vacuum_pause"}`
 - to return to base: `{"agent": "vacuum_return_to_base"}`
+
+> `vacuum` in `vacuum_start` and other commands is the name of you device from config file.

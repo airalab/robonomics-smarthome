@@ -104,6 +104,7 @@ wget https://raw.githubusercontent.com/airalab/robonomics-smarthome/main/python_
 
 Add mnemonic seed from your user account in `config.config` file:
 ```bash
+sudo -u homeassistant -H -s
 nano /srv/homeassistant/python_scripts/config.config
 ```
 In this format:
