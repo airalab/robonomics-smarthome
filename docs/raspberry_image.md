@@ -1,7 +1,7 @@
 # Prepared Image
 We prepared an image to make it easier to use the Home Assistant with Xiaomi Miio and Robonomics with the Raspberry Pi.
 
-You can get it here: [download image](https://ipfs.io/ipfs/bafybeihjcidgm4bfmsedgxfacftinbyyqvjdqsmcd6t7jqsak23nrzivmm)
+You can get it here: [download image](https://ipfs.io/ipfs/bafybeihzzqoyycflxzxlxy2aplkzxo537ggqatdlbr24b4dnlyrtpkp2eu)
 
 SHA256 checksum: `7ec5ea99d7e339b54cbeaaae58c8295411769d27732ec2b5464dbb495ba24120`
 

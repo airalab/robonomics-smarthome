@@ -53,7 +53,7 @@ You can run app using docker docker:
 ```
 cd ..
 docker build --tag app .  
-docker run -p 8000:8000 app   
+docker run -p 8000:8000 --name smarthome_backend -v scripts:/app/config/ app   
 ```
 Or like python app:
 ```
