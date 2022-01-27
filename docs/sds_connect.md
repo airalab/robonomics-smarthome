@@ -49,25 +49,20 @@ cd robonomics_smarthome_backend
 
 You can run app using docker docker:
 ```
-docker build --tag app .  
-docker run -p 8000:8000 --name smarthome_backend -v scripts:/app/config/ app   
+docker-compose up 
 ```
 Or like python app:
 ```
-cd ..
 pip3 install -r requirements.txt
 uvicorn app:app
 ```
 In another terminal:
 ```
 cd robonomics-smarthome-frontend
-```
-### Building
-It may take some time.
-```
 yarn install
 yarn build
 ```
+It may take some time.
 All build files will be located inside `/dist` folder.
 ### Dev deployment
 ```
