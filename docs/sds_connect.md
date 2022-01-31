@@ -26,10 +26,14 @@ docker pull loskp/sds_robonomics
 
 Connect ESP via USB to the computer and run docker container:
 ```bash
-docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts -e USER_SEED='<user_seed>' --name sds_robonomics loskp/sds_robonomics
+docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts --name sds_robonomics loskp/sds_robonomics
 ```
 > `/dev/ttyUSB0` is USB port name, it may be different (`/dev/ttyUSB1`, `/dev/ttyACM0`, `/dev/ttyAMA0`).
-> `<user_seed>` is raw or mnemonic seed of your robonomics account (instruction of how to create account is [here](https://wiki.robonomics.network/docs/en/create-account-in-dapp/)).
+
+If you want to send encrypted data to datalog write raw or mnemonic seed of your robonomics account (instruction of how to create account is [here](https://wiki.robonomics.network/docs/en/create-account-in-dapp/)).
+```bash
+docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts -e USER_SEED='<user_seed>' --name sds_robonomics loskp/sds_robonomics
+```
 
 If you run container for the first time, account for sensor will be automatically created and you will see public address in terminal. To start publish encrypted data to Robonomics you need XRT in you sensor account and `launch` transaction to it. With launch transactions you can stop and start sending data to Robonomics.
 

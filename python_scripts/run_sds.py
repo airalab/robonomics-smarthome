@@ -34,14 +34,18 @@ def _read_data_thread() -> None:
 def send_datalog(data: str) -> None:
     keypairs, ids = read_config('python_scripts/config.config')
     substrate = connect_robonomics()
-    user_seed = os.environ['USER_SEED']
-    if user_seed[:2] == '0x':
-        keypair_user = Keypair.create_from_seed(user_seed)
-    else:
-        keypair_user = Keypair.create_from_mnemonic(user_seed)
-    seed_user = keypair_user.seed_hex
     keypair_device = keypairs['SDS']
-    text = encrypt(seed_user, str(data))
+    try:
+        user_seed = os.environ['USER_SEED']
+        if user_seed[:2] == '0x':
+            keypair_user = Keypair.create_from_seed(user_seed)
+        else:
+            keypair_user = Keypair.create_from_mnemonic(user_seed)
+        seed_user = keypair_user.seed_hex
+        text = encrypt(seed_user, str(data))
+    except Exception as e:
+        print(f"Can't encrypt message with {e}")
+        text = str(data)
     print(f"Got message: {data}")
     call = substrate.compose_call(
             call_module="Datalog",
