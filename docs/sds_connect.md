@@ -34,7 +34,10 @@ If you want to send encrypted data to datalog write raw or mnemonic seed of your
 ```bash
 docker run  -t --device=/dev/ttyUSB0 -v python_scripts:/python_scripts -e USER_SEED='<user_seed>' --name sds_robonomics loskp/sds_robonomics
 ```
-
+You will see logs with data:
+```
+data: {'PM10': '0.5', 'PM2.5': '1.1', 'Temperature': '24.2', 'Humidity': '24.4'}
+```
 If you run container for the first time, account for sensor will be automatically created and you will see public address in terminal. To start publish encrypted data to Robonomics you need XRT in you sensor account and `launch` transaction to it. With launch transactions you can stop and start sending data to Robonomics.
 
 You will be able to see your encrypted data in sensors's account datalog in [subscan](https://robonomics.subscan.io/). You can decrypt it with `decrypt.py` script. Exec the container:
@@ -76,6 +79,6 @@ You can find server on `http://localhost:8080`
 
 ### Add SDS device
 
-Press `Add New Device` button in the end of the page and write name and device id. Device id is the public address of the sensor. Then add parameters via `Add Parameter` button, parameters must be the same as from config file ('PM10', 'PM2.5', 'CO2', 'TVOC', 'Temperature', 'Humidity'). And press `Add New Device` button.
+Press `Add New Device` button in the end of the page and write name and device id. Device id is the public address of the sensor. Then add parameters via `Add Parameter` button, parameters must be the same as in the logs ('PM10', 'PM2.5', 'Temperature', 'Humidity'). And press `Add New Device` button.
 
  ![dapp](../media/dapp.jpg)
