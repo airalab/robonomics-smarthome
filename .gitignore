@@ -1,4 +1,6 @@
 python_scripts/config.config
+docker-compose.yml
+config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

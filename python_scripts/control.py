@@ -1,5 +1,7 @@
 import time
 import json, pycurl
+from click import command
+from tomlkit import key
 from utils import read_config, connect_robonomics, decrypt
 
 def request_sender(command: dict, url: str) -> None:
@@ -16,6 +18,7 @@ def request_sender(command: dict, url: str) -> None:
 
 def listener(seed: str, address: str) -> None:
     substrate = connect_robonomics()
+    keypairs, ids = read_config('python_scripts/config.config')
     while True:
         ch = substrate.get_chain_head()
         print(f"Chain head: {ch}")
@@ -38,6 +41,18 @@ def listener(seed: str, address: str) -> None:
                         request_sender(order, "http://localhost:8123/api/webhook/" + agent)
                     except Exception as e:
                         print(f"Exception: {e}")
+            elif e.value["event_id"] == "NewLaunch":
+                for device in keypairs:
+                    if e.value['attributes'][1] == keypairs[device].ss58_address:
+                        if e.value['attributes'][2]:
+                            command = "on"
+                        else:
+                            command = "off"
+                        print(f"Got {command} command to {device}")
+                        webhook = f"http://localhost:8123/api/webhook/{device}_turn_{command}"
+                        request_sender({}, webhook)
+
+
         time.sleep(12)
 
 if __name__ == '__main__':
