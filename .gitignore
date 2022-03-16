@@ -1,4 +1,5 @@
 python_scripts/config.config
+python_scripts/automations/illumination_config.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
