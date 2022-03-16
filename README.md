@@ -27,6 +27,11 @@ Also you can connect some devices directly through Mi Home app (for example, Vac
 - [Connection through Xiaomi Gateway](docs/xiaomi_gateway.md)
 - [Connect Vacuum Cleaner](docs/vacuum_connect.md)
 
+# Automations
+
+ - [Illumination](docs/illumination.md)
+
+
 # Without Home Assistant
 
 It is also possible to connect devices directly to Robonomics. There is an instruction how to get encrypted data from [SDS011 particle sensor](docs/sds_connect.md). 
