@@ -13,7 +13,6 @@ With Illumination Automation you will be able to control how much light your pla
 Clone the repository:
 ```bash
 git clone https://github.com/airalab/robonomics-smarthome.git
-pip3 install -r robonomics-smarthome/python_scripts/automations/illumination/requirements.txt
 ```
 
 ## Configuration
@@ -38,10 +37,22 @@ lamp_coefficient: 12.9
 light_socket_id: 
 sensor_id: 
 ```
-Where `access_token` is your token from Home Assistant, `dli` is daily rate of micromoles, `lamp_coefficient` is a coefficient to convert lux to micromoles/m^2*sec (it depends on the type of your lamp, 12.9 is for lamps with blue-red spectrum). `light_socket_id` and `sensor_id` are entity ids of your smart plug and illumination sensor, you can write it now or choose with the first run of automation.
+Where `access_token` is your token from Home Assistant, `dli` is daily rate of micromoles, `lamp_coefficient` is a coefficient to convert lux to micromoles/m^2*sec (it depends on the type of your lamp, 12.9 is for lamps with blue-red spectrum). `light_socket_id` and `sensor_id` are entity ids of your smart plug and illumination sensor, you can find it in Home Assistant.
 
 ## Run
 
-Run `illumination.py` script:
+Firstly, build the docker image:
 ```bash
-python3 robonomics-smarthome/python_scripts/automations/illumination/illumination.py
+cd robonomics-smarthome/python_scripts/automations/illumination
+docker build -t illumination-automation .
+```
+
+Then run the container:
+```bash
+docker run -t -d --restart always --name illumination-automation -v illumination-automation:/data --network host illumination-automation
+```
+
+You can see logs with:
+```bash
+docker logs illumination-automation -f
+```

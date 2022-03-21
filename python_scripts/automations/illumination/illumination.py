@@ -3,11 +3,11 @@ import time
 import yaml
 import os
 import typing as tp
-from datetime import datetime
+from datetime import datetime, timedelta
 from ast import literal_eval
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s')
 
 class IlluminationAutomation:
     def __init__(self) -> None:
@@ -101,28 +101,57 @@ class IlluminationAutomation:
             self.data['mkmol'] = mkmol
             yaml.dump(self.data, f)
 
+    def get_next_dawn(self) -> datetime:
+        format_time: str = "%Y-%m-%dT%H:%M:%S"
+        response_sun = self.get_request("states/sun.sun")
+        next_dawn = response_sun['attributes']['next_dawn'].split('.')
+        next_dawn = next_dawn[0]
+        next_dawn_time = datetime.strptime(next_dawn, format_time)
+        return next_dawn_time
+
     def spin(self):
-        delay = 30
+        delay: int = 30
+        next_dawn: datetime = self.get_next_dawn()
+        is_night: bool = False
         while True:
             time.sleep(delay)
-            state_response = self.get_request(f"states/{self.config['light_socket_id']}")
-            self.lamp_state = state_response['state']
-            logging.debug(f"Lamp state: {self.lamp_state}")
-            if self.lamp_state == "on":
-                response = self.get_request(f"states/{self.config['sensor_id']}")
-                self.calculate_illumination(lux=int(response['state']), delay=delay)
-                if self.data['mkmol'] > int(self.config['dli']):
+            # Check if it is night
+            if datetime.now() > next_dawn:
+                next_dawn = self.get_next_dawn()
+                logging.debug(f"Next dawn time changed to {next_dawn}")
+            next_sunset = next_dawn - timedelta(hours=6)
+            if (datetime.now() > next_sunset) and (datetime.now() < next_dawn):
+                if not is_night:
+                    logging.info("It is night. Turning off lamp...")
                     self.control_lamp("turn_off")
-            elif self.lamp_state == "off":
-                if self.data['mkmol'] < int(self.config['dli']):
-                    self.control_lamp("turn_on")
-            date = datetime.today()
-            if date.day != int(self.data['date']):
-                logging.debug(f"New day {date.day}")
-                self.data['mkmol'] = 0
-                self.data['date'] = date.day
-                with open(f"{self.path}data/illumination.yaml", "w") as f:
-                    yaml.dump(self.data, f)
+                is_night = True
+            else:
+                if is_night:
+                    logging.info("It is day. Starting to work...")
+                is_night = False
+
+            if not is_night:
+                # Check if it is new day
+                date = datetime.today()
+                if date.day != int(self.data['date']):
+                    logging.debug(f"New day {date.day}")
+                    self.data['mkmol'] = 0
+                    self.data['date'] = date.day
+                    with open(f"{self.path}data/illumination.yaml", "w") as f:
+                        yaml.dump(self.data, f)
+                
+                # Check moles
+                state_response = self.get_request(f"states/{self.config['light_socket_id']}")
+                self.lamp_state = state_response['state']
+                logging.debug(f"Lamp state: {self.lamp_state}")
+                if self.lamp_state == "on":
+                    response = self.get_request(f"states/{self.config['sensor_id']}")
+                    self.calculate_illumination(lux=int(response['state']), delay=delay)
+                    if self.data['mkmol'] > int(self.config['dli']):
+                        self.control_lamp("turn_off")
+                elif self.lamp_state == "off":
+                    if self.data['mkmol'] < int(self.config['dli']):
+                        self.control_lamp("turn_on")
 
                     
 if __name__ == '__main__':
