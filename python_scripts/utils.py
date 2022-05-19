@@ -1,7 +1,11 @@
-from substrateinterface import SubstrateInterface, Keypair
+from substrateinterface import SubstrateInterface, Keypair, KeypairType
 import nacl.secret
+import nacl.bindings
+import nacl.public
 import base64
 import configparser
+import secrets
+from typing import Union
 
 def read_config(path: str) -> dict:
     config = configparser.ConfigParser()
@@ -11,17 +15,7 @@ def read_config(path: str) -> dict:
     ids = {}
     for section in sections:
         mnemonic = config.get(section, 'SEED')
-        if section != 'user':
-                ids[section] = config.get(section, 'IDS')
-        try:
-            if mnemonic[:2] == '0x':
-                keypair = Keypair.create_from_seed(mnemonic, ss58_format=32)
-            else:
-                keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
-        except Exception as e:
-            print(f"Can't read seed {section} with error {e}")
-            keypair = None
-        keypairs[section] = keypair
+        keypairs[section] = mnemonic
     return keypairs, ids
 
 def add_seed_to_config(path: str, seed: str, device: str) -> None:
@@ -56,16 +50,21 @@ def connect_robonomics() -> SubstrateInterface:
             )
     return substrate
 
-def encrypt(seed: str, data: str) -> str:
-    b = bytes(seed[0:32], "utf8")
-    box = nacl.secret.SecretBox(b)
-    data = bytes(data, 'utf-8')
-    encrypted = box.encrypt(data)
-    text = base64.b64encode(encrypted).decode("ascii")
-    return text
+def encrypt_message(
+    message: Union[bytes, str], sender_keypair: Keypair, recipient_public_key: bytes, nonce: bytes = secrets.token_bytes(24),
+) -> bytes:
+    curve25519_public_key = nacl.bindings.crypto_sign_ed25519_pk_to_curve25519(recipient_public_key)
+    recipient = nacl.public.PublicKey(curve25519_public_key)
+    private_key = nacl.bindings.crypto_sign_ed25519_sk_to_curve25519(sender_keypair.private_key + sender_keypair.public_key)
+    sender = nacl.public.PrivateKey(private_key)
+    box = nacl.public.Box(sender, recipient)
+    encrypted = box.encrypt(message if isinstance(message, bytes) else message.encode("utf-8"), nonce)
+    return base64.b64encode(encrypted).decode("ascii")
 
-def decrypt(seed: str, encrypted_data: str) -> str:
-    b = bytes(seed[0:32], "utf8")
-    box = nacl.secret.SecretBox(b)
-    decrypted = box.decrypt(base64.b64decode(encrypted_data))
-    return decrypted
+def decrypt_message(encrypted_message: bytes, sender_public_key: bytes, recipient_keypair: Keypair) -> bytes:
+    private_key = nacl.bindings.crypto_sign_ed25519_sk_to_curve25519(recipient_keypair.private_key + recipient_keypair.public_key)
+    recipient = nacl.public.PrivateKey(private_key)
+    curve25519_public_key = nacl.bindings.crypto_sign_ed25519_pk_to_curve25519(sender_public_key)
+    sender = nacl.public.PublicKey(curve25519_public_key)
+    encrypted = base64.b64decode(encrypted_message)
+    return nacl.public.Box(recipient, sender).decrypt(encrypted)
